@@ -1,0 +1,113 @@
+<!-- Create Ticket Modal -->
+
+<div class="modal fade" [id]="'createTicketModal'" tabindex="-1">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+          <h5 class="modal-title">Create New Ticket</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <form [formGroup]="createTicketForm" (ngSubmit)="createTicket()">
+              <div class="modal-body">
+                 
+
+                  <label class="form-label" for="phoneNumber">Phone Number <small class="text-danger">(Only numbers are allowed)</small></label>
+                  <input formControlName="phoneNumber" type="text" id="phoneNumber" class="form-control" />
+
+                  <label class="form-label" for="governorate">Governorate</label>
+                  <select formControlName="governorate" id="governorate" class="form-select">
+                    <option *ngFor="let governorate of governorates" [value]="governorate">{{ governorate }}</option>
+                  </select>
+                  
+                  <label class="form-label" for="city">City</label>
+                  <select formControlName="city" id="city" class="form-select">
+                    <option *ngFor="let city of cities" [value]="city">{{ city }}</option>
+                  </select>
+
+                  <label class="form-label" for="district">District</label>
+                  <select formControlName="district" id="district" class="form-select">
+                    <option *ngFor="let district of districts" [value]="district">{{ district }}</option>
+                  </select>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-success">Create</button>
+              </div>
+          </form>
+      </div>
+  </div>
+</div>
+
+<!-- End of Create Ticket Modal -->
+
+<div class="mt-5">
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-6">
+          <h1>Tickets List</h1>
+        </div>
+        <div class="col-6 text-end pe-5">
+          <a class="btn btn-success" [attr.data-bs-toggle]="'modal'" [attr.data-bs-target]="'#createTicketModal'">
+            <i class="fa fa-plus-square"></i>
+            Create
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="content px-2">
+    <div class="container-fluid">
+      <div class="card">
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead class="bg-light">
+                <tr>
+                  <th>ID</th>
+                  <th>Creation Date</th>
+                  <th>Phone Number</th>
+                  <th>Governorate</th>
+                  <th>City</th>
+                  <th>District</th>
+                  <th style="width: 200px;">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let ticket of Tickets[0] | paginate : pagingConfig;" [ngStyle]="{ '--bs-table-bg': getColor(ticket) }">
+                  <td>{{ ticket.id}}</td>
+                  <td>{{ convertDate(ticket.creationDateTime) }}</td>
+                  <td>{{ ticket.phoneNumber }}</td>
+                  <td>{{ ticket.governorate }}</td>
+                  <td>{{ ticket.city }}</td>
+                  <td>{{ ticket.district }}</td>
+                  <td *ngIf="!ticket.isHandled">
+                    <button class="btn btn-danger" (click)="markHandled(ticket.id)">Not Handled</button>
+                  </td>
+                  <td *ngIf="ticket.isHandled">
+                    <button class="btn btn-success disabled">Handled</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card-footer table-card-footer bg-light border-top">
+          <div class="row">
+            <div class="text-center">
+              <p class="mb-0 my-2">
+                <pagination-controls
+                  previousLabel="Prev"
+                  nextLabel="Next"
+                  firstText="First"
+                  lastText="Last"
+                  (pageChange)="pageChanged($event)">
+                </pagination-controls>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

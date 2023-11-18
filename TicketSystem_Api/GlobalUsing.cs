@@ -1,0 +1,11 @@
+﻿global using Microsoft.EntityFrameworkCore;
+global using TicketSystem_Api.DataAccess.Data;
+global using TicketSystem_Api.DataAccess.Repository;
+global using TicketSystem_Api.DataAccess.Repository.IRepository;
+global using TicketSystem_Api.Utility;
+global using TicketSystem_Api.Models;
+global using AutoMapper;
+global using Microsoft.AspNetCore.Mvc;
+global using System.Net;
+global using System.Text.RegularExpressions;
+global using TicketSystem_Api.Models.DTO;
